@@ -1,5 +1,6 @@
 pandas
 matplotlib
 seaborn
-streamlit
 babel
+streamlit>=1.30.0
+altair<6
