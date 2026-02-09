@@ -2,14 +2,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
-from babel.numbers import format_currency
+import os
 
 # Set style
 sns.set(style='dark')
 
-# Load data (pastikan file day.csv satu folder dengan file ini saat dijalankan)
-day_df = pd.read_csv("day.csv")
-hour_df = pd.read_csv("hour.csv")
+# --- PERUBAHAN DI SINI: MENCARI LOKASI FILE SECARA OTOMATIS ---
+# Mendapatkan lokasi folder tempat file ini (dashboard.py) berada
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Menyusun path lengkap ke file csv (agar tidak error path)
+day_csv_path = os.path.join(script_dir, 'day.csv')
+hour_csv_path = os.path.join(script_dir, 'hour.csv')
+
+# Load data menggunakan path yang sudah dibuat
+day_df = pd.read_csv(day_csv_path)
+hour_df = pd.read_csv(hour_csv_path)
+# ---------------------------------------------------------------
 
 # Helper function
 def create_daily_orders_df(df):
@@ -41,6 +50,7 @@ with st.sidebar:
     )
 
 # Filter data berdasarkan input tanggal
+# Mengubah input tanggal menjadi string agar sesuai tipe datanya
 main_df = day_df[(day_df["dteday"] >= str(start_date)) & 
                 (day_df["dteday"] <= str(end_date))]
 
